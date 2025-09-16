@@ -1,4 +1,4 @@
-# WUGAN: Generating Antimicrobial Peptides with Wasserstein U-Net GANs
+# WUGAN: LEVERAGING WASSERSTEIN GANS WITH U-NET AND DUAL LOSS FOR ENHANCED ANTIMICROBIAL PEPTIDE GENERATION
 
 A cutting-edge **Generative Adversarial Network (GAN)** framework for designing novel **antimicrobial peptides (AMPs)** with therapeutic potential. WUGAN combines **Wasserstein GAN with Gradient Penalty (WGAN-GP)** and a **U-Net discriminator** to generate biologically plausible peptide sequences.
 
