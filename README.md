@@ -78,7 +78,7 @@ Unlike prior GAN approaches, UNet-WGAN:
 
 ## 📊 Results (Highlights)  
 
-- **CAMPR4 score (threshold 0.5):** UNet-WGAN 73.5% ± 6.1 → higher than AMPGAN, HydrAMP, FBGAN-ESM2, RLGen.  
+- **CAMPR4 score (threshold 0.5):** UNet-WGAN 73.5% ± 6.1 → higher than AMPGAN, HydrAMP, FBGAN-ESM2, RLGen, cdGAN.  
 - **Diversity:** 100% novel peptides (no >80% identity to training set).  
 - **Similarity:** Intra-set similarity ~28.9%, comparable to top baselines (26–28%).  
 
