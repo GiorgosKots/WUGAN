@@ -49,7 +49,7 @@ Unlike prior GAN approaches, UNet-WGAN:
 - **Jensen–Shannon Divergence (JSD)**: $k$-mer (3–6) distribution similarity.  
 - **Physicochemical AMP score**: length 5–60, charge +1–12, hydrophobicity 30–60%, Lys/Arg 10–50%.  
 - **ORF validity**: ensures generated DNA translates into peptides.  
-- **CAMP$_{R4}$ benchmark**: external RF/SVM/ANN classifiers for AMP potential.  
+- **CAMPR4 benchmark**: external RF/SVM/ANN classifiers for AMP potential.  
 
 ---
 
