@@ -18,7 +18,7 @@ Unlike prior GAN approaches, UNet-WGAN:
 - ✅ **WGAN-GP backbone** → stable adversarial training  
 - ✅ **U-Net discriminator with dual losses** → global + local sequence fidelity  
 - ✅ **CutMix augmentation** → hybrid inputs for stronger local supervision  
-- ✅ **Biological evaluation metrics** → JSD, AMP scores, ORF validity, CAMP$_{R4}$  
+- ✅ **Biological evaluation metrics** → JSD, AMP scores, ORF validity, CAMPR4  
 
 ---
 
