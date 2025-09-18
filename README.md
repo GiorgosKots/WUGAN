@@ -97,8 +97,3 @@ pip install -r requirements.txt
 # For GPU acceleration (recommended)
 pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
 
-# Install dependencies
-pip install -r requirements.txt
-
-# For GPU acceleration (recommended)
-pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
