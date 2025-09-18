@@ -1,104 +1,101 @@
-# UNET-WGAN: LEVERAGING WASSERSTEIN GANS WITH U-NET AND DUAL LOSS FOR ENHANCED ANTIMICROBIAL PEPTIDE GENERATION
+# UNET-WGAN: A U-NET BASED ADVERSARIAL FRAMEWORK FOR GLOBAL AND LOCAL FEEDBACK IN ANTIMICROBIAL PEPTIDE GENERATION
 
-A cutting-edge **Generative Adversarial Network (GAN)** framework for designing novel **antimicrobial peptides (AMPs)** with therapeutic potential. WUGAN combines **Wasserstein GAN with Gradient Penalty (WGAN-GP)** and a **U-Net discriminator** to generate biologically plausible peptide sequences.
+A deep learning framework for **de novo antimicrobial peptide (AMP) design**. 
+**UNet-WGAN** combines a **Wasserstein GAN with Gradient Penalty (WGAN-GP)** and a **U-Net discriminator** with **dual loss functions** to generate **novel, diverse, and biologically plausible peptides**.  
 
 ---
 
 ## 📌 Overview
 
-WUGAN addresses the critical need for **novel antimicrobial agents** by leveraging **deep generative models** to design peptides with potential therapeutic applications. Unlike traditional GANs, WUGAN employs a **U-Net-based discriminator** to evaluate sequences at both **global and local scales**, ensuring high-quality and biologically relevant outputs.
+Antimicrobial resistance (AMR) is a major global health threat, driving the need for **novel therapeutic peptides**. UNet-WGAN addresses this by generating peptide-like DNA sequences that translate into realistic AMP candidates.  
 
-### Key Features:
-✅ **Wasserstein GAN with Gradient Penalty (WGAN-GP)** for stable training
-✅ **U-Net discriminator** for multi-scale sequence evaluation
-✅ **CutMix augmentation** for robust training
-✅ **Computational validation** with JSD and AMP metrics
-
----
-
-## 🔬 How It Works
-
-### 1. Data Preparation
-- **Input**: Curated dataset of known antimicrobial peptide sequences
-- **Preprocessing**: Sequences are encoded and augmented using **CutMix** to create hybrid real/fake samples
-- **Output**: Training-ready tensor representations of peptide sequences
-
-### 2. Model Architecture
-
-#### Generator
-- Transforms random noise into AMP sequences
-- Optimized to fool the U-Net discriminator
-
-#### U-Net Discriminator (Key Innovation)
-- **Global Branch**: Evaluates overall sequence authenticity (Wasserstein loss)
-- **Local Branch**: Focuses on fine-grained patterns (e.g., amino acid motifs) via sequence-wise classification
-- **Decoder Loss**: Ensures local consistency in generated sequences
-
-### 3. Training Process
-- **Adversarial Training**: Generator and discriminator compete in a minimax game
-- **Loss Functions**:
-  - Wasserstein Loss: Measures distribution distance
-  - Gradient Penalty: Enforces Lipschitz continuity
-  - Decoder Loss: Ensures local sequence consistency
-- **Stable Training**: WGAN-GP avoids mode collapse and vanishing gradients
-
-### 4. Generation & Validation
-- **Output**: Novel AMP sequences with potential antimicrobial activity
-- **Validation**:
-  - Computational metrics (JSD, AMP scores)
+Unlike prior GAN approaches, UNet-WGAN:  
+- Uses a **U-Net discriminator** for both **global (sequence-level)** and **local (nucleotide-level)** supervision.  
+- Couples **CutMix augmentation** with the decoder head, enabling **robust local feedback**.  
+- Trains without external classifiers or conditional labels, relying solely on **architecture-driven supervision**.
+- 
+### ✨ Key Features  
+- ✅ **WGAN-GP backbone** → stable adversarial training  
+- ✅ **U-Net discriminator with dual losses** → global + local sequence fidelity  
+- ✅ **CutMix augmentation** → hybrid inputs for stronger local supervision  
+- ✅ **Biological evaluation metrics** → JSD, AMP scores, ORF validity, CAMP$_{R4}$  
 
 ---
 
-## 💡 Innovations
+## 🔬 How It Works  
 
-1. **U-Net Discriminator**
-   - Captures hierarchical features in peptide sequences
-   - Evaluates both global structure and local motifs
+### 1. Data Preparation  
+- **Input**: Experimentally validated AMP datasets (APD3, DRAMP, CAMP, etc.).  
+- **Representation**: Sequences mapped to DNA, one-hot encoded over `{A, T, G, C, P}` (P = padding).  
+- **Augmentation**: CutMix blends real and generated subsequences for decoder supervision.  
 
-2. **Stable Training with WGAN-GP**
-   - Avoids common GAN training issues
-   - Ensures reliable convergence and high-quality outputs
+### 2. Model Architecture  
 
-3. **Biologically Informed Design**
-   - Generates sequences with realistic antimicrobial properties
-   - Incorporates biological constraints (charge, hydrophobicity)
+**Generator**  
+- Maps random latent vectors to peptide-like DNA sequences.  
+- Outputs categorical distributions via **Gumbel–Softmax**, ensuring differentiability.  
 
-4. **CutMix Augmentation**
-   - Creates hybrid sequences during training
-   - Improves discriminator robustness
+**U-Net Discriminator (Core Idea)**  
+- **Global output**: Wasserstein score (real/fake at sequence level).  
+- **Decoder head**: Per-nucleotide probabilities, trained jointly with CutMix masks.  
+- **Dual-loss setup**: Combines adversarial loss + local residue-level loss.  
 
----
+### 3. Training Objectives  
+- **Generator loss** = adversarial + decoder (pixel-wise) loss.  
+- **Discriminator loss** = adversarial + gradient penalty + decoder loss.  
+- **Training strategy**: $d_{step}=5$, $g_{step}=2$, Adam optimizer with gradient clipping.  
 
-## 🧪 Applications
-
-- **Drug Discovery**: Accelerate design of novel AMPs against antibiotic-resistant pathogens
-- **Synthetic Biology**: Generate custom peptides for biomedical/industrial applications
-- **Computational Biology**: Framework for AI-driven peptide design
-
----
-
-## 📈 Why WUGAN?
-
-|      Traditional Methods      |      WUGAN Approach        |
-|-------------------------------|----------------------------|
-| Costly experimental screening |  Computational generation  |
-|   Limited sequence diversity  |   High-throughput design   |
-|   Manual peptide engineering  |   AI-driven optimization   |
-|    Time-consuming process     | Rapid candidate generation |
-
-WUGAN **automates AMP discovery** by:
-- Generating diverse candidate sequences computationally
-- Focusing on biologically plausible designs
-- Reducing reliance on brute-force experimentation
+### 4. Evaluation  
+- **Jensen–Shannon Divergence (JSD)**: $k$-mer (3–6) distribution similarity.  
+- **Physicochemical AMP score**: length 5–60, charge +1–12, hydrophobicity 30–60%, Lys/Arg 10–50%.  
+- **ORF validity**: ensures generated DNA translates into peptides.  
+- **CAMP$_{R4}$ benchmark**: external RF/SVM/ANN classifiers for AMP potential.  
 
 ---
 
-## 🛠 Installation
+## 💡 Why It’s Different  
+
+1. **Dual-Loss U-Net Discriminator**  
+   - Captures **sequence-level realism** and **motif-level details** simultaneously.  
+
+2. **CutMix for Sequences**  
+   - First adaptation of **CutMix** to 1D DNA/peptide sequences.  
+   - Applied only through the decoder head for robust local supervision.  
+
+3. **Architecture-Driven Training**  
+   - No external feedback classifiers.  
+   - Faster, simpler, and still competitive with classifier-based models.  
+
+---
+
+## 🧪 Applications  
+
+- **Drug discovery** → design of novel AMPs against resistant bacteria  
+- **Synthetic biology** → peptide generation for industrial and biomedical use  
+- **Bioinformatics** → framework for generative sequence modeling  
+
+---
+
+## 📊 Results (Highlights)  
+
+- **CAMP$_{R4}$ score (threshold 0.5):** UNet-WGAN 73.5% ± 6.1 → higher than AMPGAN, HydrAMP, FBGAN-ESM2, RLGen.  
+- **Diversity:** 100% novel peptides (no >80% identity to training set).  
+- **Similarity:** Intra-set similarity ~28.9%, comparable to top baselines (26–28%).  
+
+---
+
+## 🛠 Installation  
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/WUGAN.git
-cd WUGAN
+git clone https://github.com/yourusername/UNet-WGAN.git
+cd UNet-WGAN
+
+# Install dependencies
+pip install -r requirements.txt
+
+# For GPU acceleration (recommended)
+pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
 
 # Install dependencies
 pip install -r requirements.txt
