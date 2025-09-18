@@ -3,8 +3,8 @@ torchvision
 torchaudio
 numpy
 scipy
-pandas
-scikit-learn
 biopython
 matplotlib
 tqdm
+joblib
+tqdm-joblib
